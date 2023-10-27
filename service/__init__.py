@@ -8,7 +8,8 @@ import sys
 from flask import Flask
 from service import config
 from service.common import log_handlers
-from flask_talisman import Talisman  # Import Talisman
+from flask_talisman import Talisman
+from flask_cors import CORS
 
 # Create Flask application
 app = Flask(__name__)
@@ -37,5 +38,8 @@ except Exception as error:  # pylint: disable=broad-except
 
 # Create an instance of Talisman and pass the Flask app to it
 talisman = Talisman(app)
+
+# Create an instance of CORS and pass the Flask app to it
+CORS(app)
 
 app.logger.info("Service initialized!")
