@@ -10,6 +10,7 @@ spec:
     - name: repo-url
     - name: branch
       default: main
+    - name: build-image  # Add a new parameter for the build image
   tasks:
     - name: init
       workspaces:
@@ -56,3 +57,16 @@ spec:
           value: "-v --with-spec --spec-color"
       runAfter:
         - clone
+    - name: build  # Add a new build task
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: "$(params.build-image)"
+      runAfter:
+        - tests
+        - lint
